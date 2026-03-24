@@ -1,8 +1,14 @@
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ProductDetails from './pages/ProductDetails';
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center text-3xl font-bold text-blue-500">
-      Tailwind is working
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/products/:id" element={<ProductDetails />} />
+    </Routes>
   );
 }
+
 export default App;
