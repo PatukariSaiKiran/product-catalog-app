@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../services/api";
 import type { Product } from '../types/product';
 import ArrowLeft from '../assets/icons/arrow-left.svg?react';
+import Rating from "../components/Rating";
 
 
 
@@ -83,9 +84,12 @@ function ProductDetails() {
               <span className="text-base align-top">{decimal}</span>
             </div>
 
-            <p className="text-sm text-gray-600 mb-5">
-              Rating: {product.rating.rate} / 5 ({product.rating.count} reviews)
-            </p>
+            <div className="mb-5">
+               <Rating 
+                 rate={product.rating.rate} 
+                 count={product.rating.count} 
+                />
+            </div>
 
             <div className="border-t border-gray-200 pt-6 mt-4">
               <h2 className="text-lg font-semibold mb-2">Description</h2>
