@@ -18,7 +18,7 @@ function Home() {
 
       const data = await getProducts();
       setProducts(data);
-      setFilteredProducts(data); // ✅ IMPORTANT
+      setFilteredProducts(data);
     } catch (err) {
       setError('Failed to fetch products');
       console.error(err);
@@ -46,32 +46,50 @@ function Home() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredProducts(products);
+    }
+  }, [searchTerm, products]);
+
   if (loading) return <div className="p-6">Loading products...</div>;
   if (error) return <div className="p-6 text-red-600">{error}</div>;
 
   return (
     <main className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-2">Product Catalogue</h1>
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div>
+          <h1
+            onClick={() => {
+              setSearchTerm('');
+              setFilteredProducts(products);
+            }}
+            className="text-3xl font-bold mb-2 cursor-pointer"
+          >
+            Product Catalogue
+          </h1>
 
-      <p className="text-gray-600 mb-6">
-        {searchTerm.trim()
-          ? `Showing ${filteredProducts.length} result${filteredProducts.length !== 1 ? 's' : ''}`
-          : `Total products: ${products.length}`}
-      </p>
+          <p className="text-gray-600">
+            {searchTerm.trim()
+              ? `Showing ${filteredProducts.length} result${filteredProducts.length !== 1 ? 's' : ''}`
+              : `Total products: ${products.length}`}
+          </p>
+        </div>
 
-      <SearchBar
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        onSearchSubmit={handleSearch}
-      />
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          onSearchSubmit={handleSearch}
+        />
+      </div>
 
       {filteredProducts.length === 0 && (
-        <p className="text-gray-600 mt-4">
+        <p className="text-gray-600 mb-6">
           No products found for "{searchTerm}"
         </p>
       )}
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
