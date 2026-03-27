@@ -22,7 +22,7 @@ function SearchBar({
             onSearchSubmit();
           }
         }}
-        placeholder="Search products..."
+        placeholder="Search products by title..."
         className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-4 pr-12 focus:outline-none focus:border-gray-300 focus:ring-0"
       />
 

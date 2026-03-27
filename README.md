@@ -13,6 +13,7 @@ This is a frontend application built using React, TypeScript, and Tailwind CSS t
 - Added a back button to return to the product list
 - Implemented a favourite toggle feature using a heart icon
 - Stored favourite products in localStorage so they persist after refresh
+- Added simple client-side pagination for cleaner product browsing
 
 ## Tech Stack
 

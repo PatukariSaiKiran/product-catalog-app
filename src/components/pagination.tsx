@@ -23,7 +23,6 @@ function Pagination({
   return (
     <div className="mt-8 flex items-center justify-center gap-4 text-lg">
 
-      {/* LEFT */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -31,13 +30,11 @@ function Pagination({
       >
         <LeftArrow className="w-5 h-5" />
       </button>
-
-      {/* TEXT */}
+     
       <span className="text-gray-700 font-medium">
         {endItem} / {totalItems}
       </span>
 
-      {/* RIGHT */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}

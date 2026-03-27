@@ -82,12 +82,12 @@ function Home() {
           >
             Product Catalogue
           </h1>
-
-          <p className="text-gray-600">
-            {searchTerm.trim()
-              ? `Showing ${filteredProducts.length} result${filteredProducts.length !== 1 ? 's' : ''}`
-              : `Total products: ${products.length}`}
-          </p>
+            
+           {searchTerm.trim() && (
+           <p className="text-gray-600">
+              Showing {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''}
+           </p>
+            )}
         </div>
 
         <SearchBar
