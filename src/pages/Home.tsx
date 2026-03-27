@@ -3,6 +3,7 @@ import { getProducts } from '../services/api';
 import type { Product } from "../types/product";
 import ProductCard from "../components/ProductCard";
 import SearchBar from "../components/SearchBar";
+import Pagination from "../components/pagination";
 
 function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -10,6 +11,9 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 10;
 
   const fetchProducts = async () => {
     try {
@@ -28,6 +32,8 @@ function Home() {
   };
 
   const handleSearch = () => {
+    setCurrentPage(1);
+
     if (!searchTerm.trim()) {
       setFilteredProducts(products);
       return;
@@ -49,8 +55,15 @@ function Home() {
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredProducts(products);
+      setCurrentPage(1);
     }
   }, [searchTerm, products]);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   if (loading) return <div className="p-6">Loading products...</div>;
   if (error) return <div className="p-6 text-red-600">{error}</div>;
@@ -63,6 +76,7 @@ function Home() {
             onClick={() => {
               setSearchTerm('');
               setFilteredProducts(products);
+              setCurrentPage(1);
             }}
             className="text-3xl font-bold mb-2 cursor-pointer"
           >
@@ -90,10 +104,17 @@ function Home() {
       )}
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
+        {paginatedProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </section>
+
+      <Pagination
+        currentPage={currentPage}
+        totalItems={filteredProducts.length}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+      />
     </main>
   );
 }
