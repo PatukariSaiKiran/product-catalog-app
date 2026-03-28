@@ -31,32 +31,27 @@ function Home() {
     }
   };
 
-  const handleSearch = () => {
-    setCurrentPage(1);
-
-    if (!searchTerm.trim()) {
-      setFilteredProducts(products);
-      return;
-    }
-
-    const term = searchTerm.toLowerCase();
-
-    const filtered = products.filter((product) =>
-      product.title.toLowerCase().includes(term)
-    );
-
-    setFilteredProducts(filtered);
-  };
+  
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   useEffect(() => {
+    setCurrentPage(1);
+  
     if (!searchTerm.trim()) {
       setFilteredProducts(products);
-      setCurrentPage(1);
+      return;
     }
+  
+    const term = searchTerm.toLowerCase();
+  
+    const filtered = products.filter((product) =>
+      product.title.toLowerCase().includes(term)
+    );
+  
+    setFilteredProducts(filtered);
   }, [searchTerm, products]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -93,7 +88,6 @@ function Home() {
         <SearchBar
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
-          onSearchSubmit={handleSearch}
         />
       </div>
 
