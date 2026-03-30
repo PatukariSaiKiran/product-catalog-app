@@ -63,7 +63,7 @@ function ProductDetails() {
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-6xl mx-auto">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
           className="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-700 transition"
         >
           <ArrowLeft className="w-4 h-4" />

@@ -11,7 +11,10 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const savedPage = sessionStorage.getItem("currentPage");
+    return savedPage ? Number(savedPage) : 1;
+  });
 
   const itemsPerPage = 10;
 
@@ -31,28 +34,33 @@ function Home() {
     }
   };
 
-  
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   useEffect(() => {
-    setCurrentPage(1);
-  
     if (!searchTerm.trim()) {
       setFilteredProducts(products);
       return;
     }
-  
+
     const term = searchTerm.toLowerCase();
-  
+
     const filtered = products.filter((product) =>
       product.title.toLowerCase().includes(term)
     );
-  
+
     setFilteredProducts(filtered);
   }, [searchTerm, products]);
+
+  useEffect(() => {
+    sessionStorage.setItem("currentPage", String(currentPage));
+  }, [currentPage]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedProducts = filteredProducts.slice(
@@ -77,17 +85,17 @@ function Home() {
           >
             Product Catalogue
           </h1>
-            
-           {searchTerm.trim() && (
-           <p className="text-gray-600">
+
+          {searchTerm.trim() && (
+            <p className="text-gray-600">
               Showing {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''}
-           </p>
-            )}
+            </p>
+          )}
         </div>
 
         <SearchBar
           searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
+          onSearchChange={handleSearchChange}
         />
       </div>
 
